@@ -32,6 +32,7 @@ GEM
     rspec-mocks (2.0.1)
       rspec-core (~> 2.0.1)
       rspec-expectations (~> 2.0.1)
+    sparky (0.0.1)
     term-ansicolor (1.0.5)
 
 PLATFORMS
@@ -42,3 +43,4 @@ DEPENDENCIES
   blargh!
   cucumber (~> 0.9.3)
   rspec (~> 2.0.1)
+  sparky (~> 0.0.1)
