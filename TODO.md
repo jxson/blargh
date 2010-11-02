@@ -23,6 +23,7 @@ Much later:
 
 * any other markup support
 * mountable
+* compactor
 * rails 3 integration with generators and mount-ability
 * swappable back ends, Active record, mongoid, custom, etc.
 * post admin for non git backends
