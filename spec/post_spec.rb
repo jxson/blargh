@@ -12,7 +12,7 @@ describe Blargh::Post do
   it { should respond_to(:new_record) }
   
   describe '#save' do
-    
+    # saves to file based on config
   end
   
   describe '#tags' do
@@ -30,8 +30,12 @@ describe Blargh::Post do
       })
     end
     
+    it { should be_draft }
+    it { should_not be_published }
     its(:title) { should == 'Some random blog post' }
     its(:body) { should == 'Some random text for the body of the post' }
+    its(:description) { should == 'Some random text for the body of the post' }
+    its(:slug) { should == 'some-random-blog-post' }
   end
   
   describe '.find' do
