@@ -4,6 +4,7 @@ PATH
     blargh (0.0.1)
       activemodel (~> 3.0.1)
       activesupport (~> 3.0.1)
+      stringex (~> 1.2.0)
 
 GEM
   remote: http://rubygems.org/
@@ -42,6 +43,7 @@ GEM
       rspec-expectations (~> 2.0.1)
     shoulda (2.11.3)
     sparky (0.0.1)
+    stringex (1.2.0)
     term-ansicolor (1.0.5)
 
 PLATFORMS
@@ -56,3 +58,4 @@ DEPENDENCIES
   rspec (~> 2.0.1)
   shoulda (~> 2.11.3)
   sparky (~> 0.0.1)
+  stringex (~> 1.2.0)

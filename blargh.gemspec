@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "aruba", "~> 0.2.3"
   s.add_development_dependency "sparky", "~> 0.0.1"
 
+  s.add_dependency "stringex", "~> 1.2.0"
   s.add_dependency "activemodel", "~> 3.0.1"
   s.add_dependency "activesupport", "~> 3.0.1"
 end

@@ -78,7 +78,9 @@ describe Blargh::Post do
     end
   end
 
-  # it { should respond_to(:slug) } # url safe
+  describe '#slug' do
+    its(:slug) { should == 'oh-man-kittens'}
+  end
 
   # it { should respond_to(:basename) } # git only
   # it { should respond_to(:new_record) }

@@ -22,10 +22,10 @@ module Blargh
     ##########################################################################
     validates_presence_of :body
 
-    define_attribute_methods [:title, :body, :description, :publish]
+    define_attribute_methods [:title, :body, :description, :publish, :slug]
 
     attr_reader(:attributes)
-    attr_accessor(:title, :body, :description, :publish)
+    attr_accessor(:title, :body, :description, :publish, :slug)
 
     def initialize(attributes = {})
       @attributes = attributes
@@ -53,6 +53,10 @@ module Blargh
 
     def draft?
       ! !!@publish
+    end
+
+    def slug
+      title.to_url
     end
 
     private
