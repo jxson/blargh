@@ -1,1 +1,2 @@
 require 'blargh'
+require 'shoulda'
