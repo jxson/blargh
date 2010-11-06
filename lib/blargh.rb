@@ -4,5 +4,5 @@ require 'active_support/core_ext'
 require 'blargh/post'
 
 module Blargh
-  # Your code goes here...
+  # ...
 end

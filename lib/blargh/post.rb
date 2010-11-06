@@ -22,10 +22,10 @@ module Blargh
     ##########################################################################
     validates_presence_of :body
 
-    define_attribute_methods [:title, :body]
+    define_attribute_methods [:title, :body, :description, :publish]
 
     attr_reader(:attributes)
-    attr_accessor(:title, :body)
+    attr_accessor(:title, :body, :description, :publish)
 
     def initialize(attributes = {})
       @attributes = attributes
@@ -33,55 +33,31 @@ module Blargh
       attributes.each do |name, value|
         send("#{name}=", value)
       end
-    end
 
-    #     include ActiveModel::Serialization
-    #
-    #     attr_accessor :name
-    #
-    #     def attributes
-    #       @attributes ||= {'name' => 'nil'}
-    #     end
+      @publish ||= true
+    end
 
     # defaults to the first 255 characters of the body
     def title
-      @title || @body.truncate(255, :omission => '')
+      @title || truncated_body
     end
 
-  #   attr_accessor :attributes,
-  #     :title,
-  #     :body,
-  #     :description,
-  #     :slug,
-  #     :basename,
-  #     :published_at
-  #
-  #   attr_reader :new_record,
-  #     :draft,
-  #     :published
-  #
-  #   def initialize(attrs = {})
-  #     @attributes = {
-  #       :draft => attrs[:draft] || true,
-  #       :title => attrs[:title],
-  #       :body => attrs[:body]
-  #     }
-  #   end
-  #
-  #   def draft?
-  #     !!@attributes[:draft]
-  #   end
-  #
-  #   def published?
-  #     ! draft?
-  #   end
-  #
-  #   def title
-  #     @attributes[:title]
-  #   end
-  #
-  #   def body
-  #     @attributes[:body]
-  #   end
+    # defaults to the first 255 characters of the body
+    def description
+      @description || truncated_body
+    end
+
+    def published?
+      !!@publish
+    end
+
+    def draft?
+      ! !!@publish
+    end
+
+    private
+    def truncated_body
+      @body.truncate(255)
+    end
   end
 end

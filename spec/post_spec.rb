@@ -11,79 +11,78 @@ describe Blargh::Post do
 
   subject { @post }
 
+  # ==========================================================================
+  # = Attributes
+  # ==========================================================================
   its(:body) { should == @attributes[:body] }
   it { should validate_presence_of(:body) }
 
-  context 'without a title' do
-    its(:title) { should == @attributes[:body] }
+  describe '#title' do
+    context 'without a title' do
+      its(:title) { should == @attributes[:body] }
+    end
+
+    context 'with a title' do
+      before(:each) do
+        @title = 'Check this out'
+        subject.title = @title
+      end
+
+      its(:title) { should_not == @attributes[:body] }
+      its(:title) { should == @title }
+    end
   end
 
-  context 'with a title' do
-    before(:each) { subject.title = 'Check this out' }
+  describe '#description' do
+    context 'description is set' do
+      before(:each) do
+        @description = 'some where between a title and a body'
+        subject.description = @description
+      end
 
-    its(:title) { should_not == @attributes[:body] }
-    its(:title) { should == 'Check this out'}
+      its(:description) { should == @description }
+    end
+
+    context 'description is NOT set' do
+      before(:each) { subject.description = nil }
+
+      context 'body is under 255 chars' do
+        before(:each) do
+          @body = 'just short of 255 chars'
+          subject.body = @body
+        end
+
+        its(:description) { should == @body }
+      end
+
+      context 'body is over 255 chars' do
+        before(:each) do
+          @body = Sparky.lorem(:words, 100)
+          subject.body = @body
+        end
+
+        its(:description) { should == @body.truncate(255) }
+      end
+    end
   end
 
+  describe '#publish' do
+    it { should be_published }
+    it { should_not be_draft }
 
+    context 'setting publish to false' do
+      before(:each) { subject.publish = false }
 
+      it { should_not be_published }
+      it { should be_draft }
+    end
+  end
 
-
-
-
-  # it { should respond_to(:description) }
   # it { should respond_to(:slug) } # url safe
+
   # it { should respond_to(:basename) } # git only
-  # it { should respond_to(:published_at) }
-  # it { should respond_to(:draft) }
-  # it { should respond_to(:published) }
   # it { should respond_to(:new_record) }
-  #
-  # describe '#description' do
-  #   context 'description was NOT set' do
-  #     context 'body length is less than 255 characters' do
-  #     end
-  #
-  #     context 'body length is more than 255 characters' do
-  #     end
-  #   end
-  #
-  #   context 'description was set' do
-  #     # desc is whatever was set
-  #   end
-  #
-  # end
-  #
-  # describe '#slug' do
-  #   # url safe version of the title, set befroe saving but after initialization
-  #   # allow user to override
-  # end
-  #
-  # describe '#save' do
-  #   # saves to file based on config
-  # end
-  #
-  # describe '#tags' do
-  #   # it { should respond_to(:tags) }
-  # end
-  #
-  # # ============================================================================
-  # # = Class methods
-  # # ============================================================================
-  # describe '.new' do
-  #   subject do
-  #     Blargh::Post.new({
-  #       :title => 'Some random blog post',
-  #       :body => 'Some random text for the body of the post'
-  #     })
-  #   end
-  #
-  #   it { should be_draft }
-  #   it { should_not be_published }
-  #   its(:title) { should == 'Some random blog post' }
-  #   its(:body) { should == 'Some random text for the body of the post' }
-  # end
-  #
+
   # describe '.find' do
   #
   # end
@@ -92,6 +91,7 @@ describe Blargh::Post do
   #
   # end
 
+  # https://gist.github.com/665629
   describe 'ActiveModel Lint tests' do
     require 'test/unit/assertions'
     require 'active_model/lint'
@@ -99,11 +99,10 @@ describe Blargh::Post do
     include Test::Unit::Assertions
     include ActiveModel::Lint::Tests
 
-    ActiveModel::Lint::Tests.public_instance_methods.map{ |m| m.to_s }.grep(/^test/).each do |m|
-      example m.gsub('_',' ') do
-        send m
-      end
-    end
+    ActiveModel::Lint::Tests.
+      public_instance_methods.
+      map { |m| m.to_s }.
+      grep(/^test/).each { |m| example(m.gsub('_',' ')) { send(m) } }
 
     def model
       Blargh::Post.new
