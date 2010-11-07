@@ -90,8 +90,22 @@ describe Blargh::Post do
 
   describe '#save' do
     context 'when valid' do
+      before(:each) do
+        Blargh.configure do |config|
+          config.root = File.expand_path('../../', __FILE__)
+          config.posts_directory = 'posts'
+        end
+      end
+
       its(:save) { should be_true }
-      # should save a file
+
+      context 'after save' do
+        before(:each) { subject.save }
+
+        its(:persisted?) { should be_true }
+        its(:new_record?) { should be_false }
+        it { should have_file }
+      end
     end
 
     context 'when invalid' do
@@ -104,7 +118,6 @@ describe Blargh::Post do
   end
 
   # it { should respond_to(:basename) } # git only
-  # it { should respond_to(:new_record) }
 
   # describe '.find' do
   #
