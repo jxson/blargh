@@ -82,6 +82,27 @@ describe Blargh::Post do
     its(:slug) { should == 'oh-man-kittens'}
   end
 
+  # ==========================================================================
+  # = persistence
+  # ==========================================================================
+  it { should be_new_record }
+  it { should_not be_persisted }
+
+  describe '#save' do
+    context 'when valid' do
+      its(:save) { should be_true }
+      # should save a file
+    end
+
+    context 'when invalid' do
+      before(:each) { @post = Blargh::Post.new; @post.save }
+      subject { @post }
+
+      its(:save) { should be_false }
+      its(:errors) { should include(:body=>["can't be blank"]) }
+    end
+  end
+
   # it { should respond_to(:basename) } # git only
   # it { should respond_to(:new_record) }
 
