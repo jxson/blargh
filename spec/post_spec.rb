@@ -109,23 +109,171 @@ describe Blargh::Post do
     end
 
     context 'when invalid' do
-      before(:each) { @post = Blargh::Post.new; @post.save }
+      before(:each) do
+        @post = Blargh::Post.new
+        @post.save
+      end
+
       subject { @post }
 
       its(:save) { should be_false }
       its(:errors) { should include(:body=>["can't be blank"]) }
+      it { should_not have_file }
     end
   end
 
-  # it { should respond_to(:basename) } # git only
+  describe 'save!' do
+    context 'when invalid' do
+      before(:each) { @post.body = nil }
 
-  # describe '.find' do
-  #
-  # end
-  #
-  # describe '.find_by_slug' do
-  #
-  # end
+      its(:save!) { should raise_error }
+    end
+  end
+
+  describe '.create' do
+    # it "saves and returns the document" do
+    #   person = Person.create(:title => "Sensei", :ssn => "666-66-6666")
+    #   person.should be_a_kind_of(Person)
+    #   person.should_not be_a_new_record
+    # end
+  end
+
+  describe '.create!' do
+    # context "inserting with a field that is not unique" do
+    #
+    #   context "when a unique index exists" do
+    #     before do
+    #       Person.create_indexes
+    #     end
+    #
+    #     after do
+    #       Person.delete_all
+    #     end
+    #
+    #     it "raises an error" do
+    #       Person.create!(:ssn => "555-55-9999")
+    #       lambda { Person.create!(:ssn => "555-55-9999") }.should raise_error
+    #     end
+    #   end
+    # end
+  end
+
+  describe 'create_file' do
+    # save should create file
+    # record should have a file
+  end
+
+  describe 'update_file' do
+    context 'changed attributes' do
+      # 1. save, 2 change an attr, 3. update 4. look up record
+      # chack the it retained changes
+    end
+
+    context 'unchanged attributes' do
+      # check that it returns true
+    end
+  end
+
+  describe '#update_attributes' do
+    context 'when valid' do
+      # update_attributes should be true
+      # it shoudl actaully update the record
+      # @person.update_attributes(:ssn => "555-55-1235", :pets => false, :title => nil)
+      # @from_db = Person.find(@person.id)
+      # @from_db.ssn.should == "555-55-1235"
+      # @from_db.pets.should == false
+      # @from_db.title.should be_nil
+    end
+
+    context 'when invalid' do
+      # its(:update_attributes) { should be_false }
+      # its(:errors) { should include(:body=>["can't be blank"]) }
+      # it { should_not have_file }
+    end
+  end
+
+  describe '#update_attributes!' do
+    context 'when valid' do
+      # update_attributes should be true
+      # it shoudl actaully update the record
+      # @person.update_attributes(:ssn => "555-55-1235", :pets => false, :title => nil)
+      # @from_db = Person.find(@person.id)
+      # @from_db.ssn.should == "555-55-1235"
+      # @from_db.pets.should == false
+      # @from_db.title.should be_nil
+    end
+
+    context 'when invalid' do
+      # its(:update_attributes) { should be_false }
+      # its(:errors) { should include(:body=>["can't be blank"]) }
+      # it { should_not have_file }
+    end
+  end
+
+  describe '#destroy' do
+    # check its destroyed
+    # destroy should return true
+    # @person.destroy
+    # lambda { Person.find(@person.id) }.should raise_error
+  end
+
+  describe '#delete' do
+    # check its destroyed
+    # destroy should return true
+    # @person.destroy
+    # lambda { Person.find(@person.id) }.should raise_error
+  end
+
+  describe '.delete_all' do
+    # it "deletes all the documents" do
+    #   Person.delete_all
+    #   Person.count.should == 0
+    # end
+    #
+    # it "returns the number of documents deleted" do
+    #   Person.delete_all.should == 1
+    # end
+  end
+
+  describe '.destroy_all' do
+    #
+    # before do
+    #   @person.save
+    # end
+    #
+    # it "destroys all the documents" do
+    #   Person.destroy_all
+    #   Person.count.should == 0
+    # end
+    #
+    # it "returns the number of documents destroyed" do
+    #   Person.destroy_all.should == 1
+    # end
+  end
+
+  describe '.all' do
+
+  end
+
+  describe '.count' do
+
+  end
+
+  describe '.find' do
+
+  end
+
+  describe '.first' do
+
+  end
+
+  describe '.last' do
+
+  end
+
+  describe '.paginate' do
+
+  end
 
   # https://gist.github.com/665629
   describe 'ActiveModel Lint tests' do

@@ -17,11 +17,9 @@ module Blargh
       !new_record?
     end
 
-    def insert
-
-    end
-
     def save
+      @previously_changed = changes
+      @changed_attributes.clear
       valid? ? save_to_file : false
     end
 
@@ -69,47 +67,11 @@ module Blargh
 
     validates_presence_of :body
 
-    define_attribute_methods [:title, :body, :description, :publish, :slug]
-
-    attr_reader(:attributes)
-    attr_accessor(:title, :body, :description, :publish, :slug)
-
     def initialize(attributes = {})
       @new_record = true
-      @attributes = attributes
+      @attributes = default_attributes
 
-      attributes.each do |name, value|
-        send("#{name}=", value)
-      end
-
-      @publish ||= true
-    end
-
-    # defaults to the first 255 characters of the body
-    def title
-      @title || truncated_body
-    end
-
-    # defaults to the first 255 characters of the body
-    def description
-      @description || truncated_body
-    end
-
-    def published?
-      !!@publish
-    end
-
-    def draft?
-      ! !!@publish
-    end
-
-    def slug
-      title.to_url
-    end
-
-    private
-    def truncated_body
-      @body.truncate(255)
+      attributes.each { |name, value| write_attribute(name, value) }
     end
   end
 end
