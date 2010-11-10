@@ -89,6 +89,8 @@ describe Blargh::Post do
   it { should_not be_persisted }
 
   describe '#save' do
+    # save a new record
+    # save an existing record
     context 'when valid' do
       before(:each) do
         Blargh.configure do |config|
@@ -123,19 +125,32 @@ describe Blargh::Post do
   end
 
   describe 'save!' do
+    it "does something" do
+      puts
+    end
+
+    context 'when valid' do
+      its(:save!) { should be_true }
+    end
+
     context 'when invalid' do
       before(:each) { @post.body = nil }
 
-      its(:save!) { should raise_error }
+      it "should raise an error" do
+        doing { @post.save! }.should raise_error(Blargh::Post::ValidationError)
+      end
     end
   end
 
   describe '.create' do
-    # it "saves and returns the document" do
-    #   person = Person.create(:title => "Sensei", :ssn => "666-66-6666")
-    #   person.should be_a_kind_of(Person)
-    #   person.should_not be_a_new_record
-    # end
+    before(:each) do
+      @post = Blargh::Post.create(:body => 'Wild Stallions fan art...')
+    end
+
+    subject { @post }
+
+    it { should be_a_kind_of(Blargh::Post) }
+    it { should_not be_a_new_record }
   end
 
   describe '.create!' do
@@ -158,12 +173,12 @@ describe Blargh::Post do
     # end
   end
 
-  describe 'create_file' do
+  describe '#create_file' do
     # save should create file
     # record should have a file
   end
 
-  describe 'update_file' do
+  describe '#update_file' do
     context 'changed attributes' do
       # 1. save, 2 change an attr, 3. update 4. look up record
       # chack the it retained changes
@@ -249,30 +264,6 @@ describe Blargh::Post do
     # it "returns the number of documents destroyed" do
     #   Person.destroy_all.should == 1
     # end
-  end
-
-  describe '.all' do
-
-  end
-
-  describe '.count' do
-
-  end
-
-  describe '.find' do
-
-  end
-
-  describe '.first' do
-
-  end
-
-  describe '.last' do
-
-  end
-
-  describe '.paginate' do
-
   end
 
   # https://gist.github.com/665629
