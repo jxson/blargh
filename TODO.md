@@ -1,5 +1,6 @@
 Soon:
 
+* attribute typecasting
 * simple cli
 * new blog generation
 * new blog configuration

@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_development_dependency "shoulda", "~> 2.11.3"
-  s.add_development_dependency "rspec", "~> 2.0.1"
+  s.add_development_dependency "rspec", "~> 2.1.0"
   s.add_development_dependency "cucumber", "~> 0.9.3"
   s.add_development_dependency "aruba", "~> 0.2.3"
   s.add_development_dependency "sparky", "~> 0.0.1"

@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Blargh, 'configuration' do
   describe 'defaults' do
+    before(:each) { Blargh.configure }
+
     its(:posts_directory) { should == 'posts' }
     its(:root) { should be_nil }
   end

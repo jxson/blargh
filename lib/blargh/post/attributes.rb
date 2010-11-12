@@ -1,5 +1,7 @@
 module Blargh
   class Post
+    class ValidationError < Exception; end
+
     attr_reader(:attributes)
 
     define_attribute_methods [ :title,
