@@ -171,6 +171,7 @@ describe Blargh::Post do
   end
 
   describe '#destroy' do
+    # new and found posts
     # check its destroyed
     # destroy should return true
     # @person.destroy
