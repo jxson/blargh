@@ -54,26 +54,21 @@ module Blargh
 
     # a new post's proposed home
     def save_to
-      time_stamp = lambda { Time.now.to_i }.call
-      @attributes['id'] = get_unique_id(time_stamp)
+      @attributes['id'] = get_unique_id
 
       "#{ Post.directory }/#{ read_attribute(:id) }-#{ slug }.#{extension}"
     end
 
     # good enough for now
-    def get_unique_id(proposed)
-      proposed = proposed.to_s
-      @tries ||= 0
-      @tries += 1
-
+    def get_unique_id(proposed = 1)
       ids = Dir["#{ Post.directory }/*.textile"].map do |file|
         if File.basename(file) =~ /\A(\d*)-/
-          Regexp.last_match(1)
+          Regexp.last_match(1).to_i
         end
       end
 
       if ids.include?(proposed)
-        get_unique_id("#{ proposed }#{ @tries }")
+        get_unique_id(ids.last + 1)
       else
         proposed
       end

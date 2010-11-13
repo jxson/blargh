@@ -1,7 +1,6 @@
 Soon:
 
 * attribute typecasting
-* use incremental ids instead of timestamps
 * simple cli
 * new blog generation
 * new blog configuration
