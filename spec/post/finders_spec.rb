@@ -21,6 +21,8 @@ describe Blargh::Post do
       end
 
       context 'no record' do
+        before(:each) { @post.destroy! }
+
         it "should raise a not found error" do
           pending
         end
@@ -28,13 +30,19 @@ describe Blargh::Post do
 
       context 'with nil as an id' do
         it "should raise an invalid argument error" do
-
+          pending
         end
       end
     end
 
     context 'by slug' do
+      context 'a post exists' do
 
+      end
+
+      context 'no post found' do
+
+      end
     end
   end
 

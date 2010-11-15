@@ -10,7 +10,7 @@ describe Blargh::Post do
     @post = Blargh::Post.new(:body => 'some junk about some stuff')
   end
 
-  after(:each) { Blargh::Post.delete_all }
+  # after(:each) { Blargh::Post.delete_all }
 
   subject { @post }
 
@@ -170,19 +170,43 @@ describe Blargh::Post do
     end
   end
 
-  describe '#destroy' do
-    # new and found posts
-    # check its destroyed
-    # destroy should return true
-    # @person.destroy
-    # lambda { Person.find(@person.id) }.should raise_error
-  end
-
   describe '#delete' do
-    # check its destroyed
-    # destroy should return true
-    # @person.destroy
-    # lambda { Person.find(@person.id) }.should raise_error
+    before(:each) { @post.save! }
+
+    context 'new post' do
+      its(:destroy) { should be_true }
+
+      context 'after destroy' do
+        its(:destroy) { should be_true }
+
+        it { should_not be_persisted }
+
+        it "should raise an error when looking for the destroyed post" do
+          lambda { Blargh::Post.find(@post.id) }
+            .should raise_error(Blargh::Post::NotFound)
+        end
+      end
+    end
+
+    context 'found post' do
+      before(:each) { @post_too = Blargh::Post.find(@post.id) }
+
+      subject { @post_too }
+
+      its(:destroy) { should be_true }
+
+      context 'after destroy' do
+        before(:each) { @post_too.destroy }
+
+        its(:destroy) { should be_true }
+        it { should_not be_persisted }
+
+        it "should raise an error" do
+          lambda { Blargh::Post.find(@post_too.id) }
+            .should raise_error(Blargh::Post::NotFound)
+        end
+      end
+    end
   end
 
   describe '.delete_all' do

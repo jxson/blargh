@@ -12,13 +12,24 @@ module Blargh
       end
 
       def find_by_id(id)
-        file = Dir["#{directory}/*.textile"].map do |f|
+        files = Dir["#{directory}/*.textile"].map do |f|
           if File.basename(f) =~ /\A(\d*)-/
             f if id == Regexp.last_match(1).to_i
           end
-        end.compact!.pop
+        end.compact!
 
-        attributes = extract_attributes_from_file(file).merge!('id' => id)
+        if files.nil? || files.empty?
+          raise NotFound
+        else
+          file = files.pop
+        end
+
+
+        attributes = extract_attributes_from_file(file).merge!({
+          'id' => id,
+          'saved_to' => file
+        })
+
         new(attributes)
       end
 

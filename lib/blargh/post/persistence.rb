@@ -1,5 +1,7 @@
 module Blargh
   class Post
+    class NotFound < Exception; end
+
     def self.create(attributes = {})
       new(attributes).tap(&:save)
     end
@@ -10,12 +12,19 @@ module Blargh
       post
     end
 
+    def delete
+      @persisted = false
+      FileUtils.rm(saved_to) if File.exists?(saved_to)
+      true
+    end
+    alias :destroy :delete
+
     def new_record?
       !!@new_record
     end
 
     def persisted?
-      !new_record?
+      !!@persisted
     end
 
     def save
@@ -44,7 +53,7 @@ module Blargh
       FileUtils.mkdir_p(Post.directory)
       file = save_to
       File.open(file, 'w') {|f| f.write(to_file) }
-      @saved_to = file
+      self.saved_to = file
       true
     end
 
@@ -55,8 +64,15 @@ module Blargh
     # a new post's proposed home
     def save_to
       @attributes['id'] = get_unique_id
-
       "#{ Post.directory }/#{ read_attribute(:id) }-#{ slug }.#{extension}"
+    end
+
+    def saved_to=(file)
+      @saved_to = file
+    end
+
+    def saved_to
+      @saved_to
     end
 
     def id
@@ -108,9 +124,8 @@ module Blargh
 
       def delete_all
         hit_list = Dir["#{ directory }/*"]
-        body_count = hit_list.count
         FileUtils.rm_r(hit_list, :secure => true)
-        body_count
+        hit_list.count
       end
       alias :destroy_all :delete_all
 
