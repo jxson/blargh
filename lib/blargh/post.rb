@@ -10,8 +10,13 @@ module Blargh
     validates_presence_of :body
 
     def initialize(attributes = {})
-      @new_record = true
-      @attributes = default_attributes
+      if attributes['id']
+        @attributes = { 'id' => attributes['id'] }
+        attributes.delete('id')
+      else
+        @new_record = true
+        @attributes = default_attributes
+      end
 
       attributes.each { |name, value| write_attribute(name, value) }
     end

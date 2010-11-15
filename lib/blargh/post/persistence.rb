@@ -59,13 +59,17 @@ module Blargh
       "#{ Post.directory }/#{ read_attribute(:id) }-#{ slug }.#{extension}"
     end
 
+    def id
+      read_attribute(:id)
+    end
+
     # good enough for now
     def get_unique_id(proposed = 1)
       ids = Dir["#{ Post.directory }/*.textile"].map do |file|
         if File.basename(file) =~ /\A(\d*)-/
           Regexp.last_match(1).to_i
         end
-      end
+      end.sort!
 
       if ids.include?(proposed)
         get_unique_id(ids.last + 1)

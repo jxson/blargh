@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'yaml'
 
 require 'stringex'
 require 'active_model'
