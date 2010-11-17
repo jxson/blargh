@@ -10,7 +10,7 @@ describe Blargh::Post do
     @post = Blargh::Post.create!(:body => 'Kittens, so cute <3')
   end
 
-  # after(:each) { Blargh::Post.delete_all }
+  after(:each) { Blargh::Post.delete_all }
 
   subject { @post }
 
@@ -21,16 +21,18 @@ describe Blargh::Post do
       end
 
       context 'no record' do
-        before(:each) { @post.destroy! }
+        before(:each) { @post.destroy }
 
         it "should raise a not found error" do
-          pending
+          doing { Blargh::Post.find(@post.id) }
+            .should raise_error(Blargh::Post::NotFound)
         end
       end
 
       context 'with nil as an id' do
         it "should raise an invalid argument error" do
-          pending
+          doing { Blargh::Post.find(nil) }
+            .should raise_error(Blargh::Post::InvalidArgument)
         end
       end
     end

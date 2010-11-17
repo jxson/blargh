@@ -1,7 +1,11 @@
 module Blargh
   class Post
+    class InvalidArgument < Exception; end
+
     class << self
       def find(*args)
+        raise InvalidArgument if args[0].nil?
+
         options = args.extract_options!
 
         case args.first
@@ -13,10 +17,10 @@ module Blargh
 
       def find_by_id(id)
         files = Dir["#{directory}/*.textile"].map do |f|
-          if File.basename(f) =~ /\A(\d*)-/
-            f if id == Regexp.last_match(1).to_i
+          if File.basename(f) =~ /\A(\d*)-/m
+            f if id.to_i == $1.to_i
           end
-        end.compact!
+        end.compact
 
         if files.nil? || files.empty?
           raise NotFound
