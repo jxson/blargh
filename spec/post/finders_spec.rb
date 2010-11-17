@@ -39,11 +39,25 @@ describe Blargh::Post do
 
     context 'by slug' do
       context 'a post exists' do
-
+        it "should find a document" do
+          Blargh::Post.find_by_slug(@post.slug).should be_a_kind_of(Blargh::Post)
+        end
       end
 
       context 'no post found' do
+        before(:each) { @post.destroy }
 
+        it "should raise a not found error" do
+          doing { Blargh::Post.find_by_slug(@post.slug) }
+            .should raise_error(Blargh::Post::NotFound)
+        end
+      end
+
+      context 'with nil as a slug' do
+        it "should raise an invalid argument error" do
+          doing { Blargh::Post.find_by_slug(nil) }
+            .should raise_error(Blargh::Post::InvalidArgument)
+        end
       end
     end
   end
