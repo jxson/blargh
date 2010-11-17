@@ -1,5 +1,7 @@
 Soon:
 
+* let initialize take file or saved_to as an attr
+* optimize finders
 * attribute typecasting
 * simple cli
 * new blog generation
@@ -16,6 +18,7 @@ Soon:
 
 Later:
 
+* refactor code to use modules
 * tag/ category support
 * markdown support
 * cache via cli to avoid dependency on a rack server
