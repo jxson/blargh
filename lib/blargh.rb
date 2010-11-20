@@ -2,6 +2,8 @@ require 'fileutils'
 require 'yaml'
 
 require 'stringex'
+require 'thor'
+require 'thor/group'
 require 'active_model'
 require 'active_support/core_ext'
 
