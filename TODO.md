@@ -1,12 +1,12 @@
 Soon:
 
+* rack server
 * let initialize take file or saved_to as an attr
 * optimize finders
 * attribute typecasting
 * simple cli
 * new blog generation
 * new blog configuration
-* simple git backend
 * textile support
 * layout and template support via mustache
 * generators
@@ -14,10 +14,10 @@ Soon:
 ** pages
 ** views
 ** layouts
-* cache on request in envs != dev or test
 
 Later:
 
+* cache on request in envs != dev or test
 * refactor code to use modules
 * tag/ category support
 * markdown support

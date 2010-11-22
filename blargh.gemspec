@@ -23,9 +23,13 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec", "~> 2.1.0"
   s.add_development_dependency "fuubar", "~> 0.0.1"
   s.add_development_dependency "cucumber", "~> 0.9.3"
+  s.add_development_dependency "capybara", "~> 0.4.0"
+  s.add_development_dependency "rack-test", "~> 0.5.6"
   s.add_development_dependency "aruba", "~> 0.2.3"
   s.add_development_dependency "sparky", "~> 0.0.1"
 
+  s.add_dependency "rack", "~> 1.2.1"
+  s.add_dependency "sinatra", "~> 1.1.0"
   s.add_dependency "stringex", "~> 1.2.0"
   s.add_dependency "thor", "~> 0.14.4"
   s.add_dependency "activemodel", "~> 3.0.1"
