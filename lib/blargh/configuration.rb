@@ -18,6 +18,10 @@ module Blargh
       configure.root || source_directory
     end
 
+    # These beautiful lines of code were inspired from a code snippet and
+    # a detailed illustration of best practices for writing config files from
+    # Gregory Brown's Practicing Ruby Newsletter:
+    # http://letter.ly/practicing-ruby
     def source_directory(dir = Pathname.new('.'))
       config_ru = dir + 'config.ru'
 
