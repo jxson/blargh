@@ -19,5 +19,9 @@ require 'blargh/server'
 
 
 module Blargh
-  # ...
+  class << self
+    def take_warning(message)
+      warn(message)
+    end
+  end
 end

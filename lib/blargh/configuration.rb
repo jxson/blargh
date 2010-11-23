@@ -1,4 +1,5 @@
-require "singleton"
+require 'singleton'
+require 'pathname'
 
 module Blargh
   class << self
@@ -14,7 +15,38 @@ module Blargh
     end
 
     def root
-      configure.root
+      configure.root || source_directory
+    end
+
+    def source_directory(dir = Pathname.new('.'))
+      config_ru = dir + 'config.ru'
+
+      if dir.children.include?(config_ru)
+        dir.expand_path
+      else
+        return pwd_with_warning if dir.expand_path.root?
+        source_directory(dir.parent)
+      end
+    end
+
+    def pwd_with_warning
+      message = <<-NOTICE
+# ============================================================================
+# = WARNING!
+# ============================================================================
+
+While this isn't terrible news, something is kinda off about your Blargh. I am
+forced to guess the location of your blog's source code beacuse you are
+missing a config.ru and have not explicitly set your Blargh's root. You should
+really try something like this:
+
+  Blargh.config.root = File.expand_path('some/path')
+
+      NOTICE
+
+      take_warning(message)
+
+      Pathname.new(Dir.pwd)
     end
   end
 
@@ -25,6 +57,14 @@ module Blargh
 
     def initialize
       @posts_directory = 'posts'
+    end
+
+    def root=(path)
+      @root = Pathname.new(path)
+    end
+
+    def reset_root
+      @root = nil
     end
   end
 end
