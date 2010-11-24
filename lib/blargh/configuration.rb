@@ -10,12 +10,16 @@ module Blargh
 
     alias :config :configure
 
+    def root
+      configure.root || source_directory
+    end
+
     def posts_directory
       configure.posts_directory
     end
 
-    def root
-      configure.root || source_directory
+    def permalink
+      configure.permalink
     end
 
     # These beautiful lines of code were inspired from a code snippet and
@@ -57,10 +61,11 @@ really try something like this:
   class Configuration
     include Singleton
 
-    attr_accessor :posts_directory, :root
+    attr_accessor :posts_directory, :root, :permalink
 
     def initialize
       @posts_directory = 'posts'
+      @permalink = '/posts/:slug'
     end
 
     def root=(path)

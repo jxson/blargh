@@ -4,8 +4,9 @@ describe Blargh, 'configuration' do
   before(:each) { silence_blargh_warnings }
 
   describe 'defaults' do
-    its(:posts_directory) { should == 'posts' }
     its(:root) { should_not be_nil }
+    its(:posts_directory) { should == 'posts' }
+    its(:permalink) { should == '/posts/:slug' }
   end
 
   describe '.posts_directory' do

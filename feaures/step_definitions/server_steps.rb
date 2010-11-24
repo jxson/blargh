@@ -1,4 +1,6 @@
 Given /^I rackup "([^"]*)"$/ do |directory|
+  # Not actually going to rackup, this is close enough...
+  Blargh.config.root = directory
   Blargh::Server.set(:environment, :test)
 
   Capybara.app = Rack::Builder.new {

@@ -13,11 +13,6 @@ module Blargh
         empty_directory(directory)
       end
 
-      def copy_blargh_config
-        template('config/blargh.rb',
-          "#{ directory }/config/blargh.rb")
-      end
-
       def copy_config_ru
         template('config.ru', "#{ directory }/config.ru")
       end
@@ -28,8 +23,8 @@ module Blargh
       end
 
       def copy_first_post
-        template('posts/1-first.textile',
-          "#{ directory }/posts/1-first.textile")
+        template("posts/first-post.textile",
+          "#{ directory }/posts/#{ Post.stamp }-first-post.textile")
       end
     end
   end

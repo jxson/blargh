@@ -22,5 +22,9 @@ module Blargh
 
       attributes.each { |name, value| write_attribute(name, value) }
     end
+
+    def self.stamp
+      Time.now.strftime('%Y-%m-%d')
+    end
   end
 end
