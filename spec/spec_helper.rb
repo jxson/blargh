@@ -1,4 +1,5 @@
 require 'blargh'
+require 'blargh/cli'
 require 'shoulda'
 require 'sparky'
 

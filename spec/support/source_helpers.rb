@@ -11,7 +11,12 @@ module Blargh
 
     def generate_source
       remove_source
-      FileUtils.cp_r(template_path, souce_path)
+
+      Blargh::Generators::New.start([
+        souce_path.to_s,
+        '--verbose',
+        'flase'
+      ])
     end
 
     def remove_source
