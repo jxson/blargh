@@ -132,6 +132,19 @@ describe Blargh::Post do
     end
   end
 
+  # double check
+  # new(attributes)
+  # create(attributes)
+  # create!(attributes)
+  # find(id_or_array)
+  # destroy(id_or_array)
+  # destroy_all
+  # delete(id_or_array)
+  # delete_all
+  # update(ids, updates)
+  # update_all(updates)
+  # exists?
+
   describe '#update_attributes' do
     context 'when valid' do
       # update_attributes should be true
