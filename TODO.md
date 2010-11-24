@@ -1,10 +1,11 @@
 Soon:
 
-* rack server
+* get specs to use the tmp dir
+* find by stamp (:month-:day-:year)
+* get posts to work with factory girl
 * let initialize take file or saved_to as an attr
 * optimize finders
 * attribute typecasting
-* simple cli
 * new blog generation
 * new blog configuration
 * textile support
