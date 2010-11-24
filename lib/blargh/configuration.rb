@@ -61,7 +61,8 @@ really try something like this:
   class Configuration
     include Singleton
 
-    attr_accessor :posts_directory, :root, :permalink
+    attr_reader :permalink
+    attr_accessor :posts_directory, :root
 
     def initialize
       @posts_directory = 'posts'

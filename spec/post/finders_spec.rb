@@ -2,15 +2,11 @@ require 'spec_helper'
 
 describe Blargh::Post do
   before(:each) do
-    Blargh.configure do |config|
-      config.root = File.expand_path('../../../', __FILE__)
-      config.posts_directory = 'posts'
-    end
-
-    @post = Blargh::Post.create!(:body => 'Kittens, so cute <3')
+    generate_source
+    Blargh.config.root = souce_path
   end
 
-  after(:each) { Blargh::Post.delete_all }
+  after(:each) { remove_source }
 
   subject { @post }
 
@@ -40,16 +36,8 @@ describe Blargh::Post do
     context 'by slug' do
       context 'a post exists' do
         it "should find a document" do
-          Blargh::Post.find_by_slug(@post.slug).should be_a_kind_of(Blargh::Post)
-        end
-      end
-
-      context 'no post found' do
-        before(:each) { @post.destroy }
-
-        it "should raise a not found error" do
-          doing { Blargh::Post.find_by_slug(@post.slug) }
-            .should raise_error(Blargh::Post::NotFound)
+          Blargh::Post.find_by_slug('first-post')
+            .should be_a_kind_of(Blargh::Post)
         end
       end
 

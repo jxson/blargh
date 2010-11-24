@@ -39,9 +39,8 @@ module Blargh
 
       def find_by_slug(slug)
         raise InvalidArgument if slug.nil?
-
-        files = Dir["#{directory}/*.textile"].map do |f|
-          if File.basename(f) =~ /\A(\d*)-(.*)\.textile/m
+        files = Dir["#{ directory }/*.textile"].map do |f|
+          if File.basename(f) =~ /\A(\d+-\d+-\d+)-(.*)\.textile/m
             f if slug == $2
           end
         end.compact
@@ -51,7 +50,6 @@ module Blargh
         else
           file = files.pop
         end
-
 
         attributes = extract_attributes_from_file(file).merge!({
           'id' => $1.to_i,
