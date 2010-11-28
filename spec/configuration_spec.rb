@@ -3,21 +3,32 @@ require 'spec_helper'
 describe Blargh, 'configuration' do
   before(:each) { silence_blargh_warnings }
 
+  let(:working_directory) { Pathname.new(File.expand_path('../', __FILE__)) }
+  let(:source_path) { Pathname.new(File.expand_path('../source', __FILE__)) }
+
   describe 'defaults' do
+    subject { Blargh.config }
+
     its(:root) { should_not be_nil }
-    its(:posts_directory) { should == 'posts' }
+    its(:posts_directory) { should_not be_nil }
     its(:permalink) { should == '/posts/:slug' }
   end
 
   describe '.posts_directory' do
-    before(:each) { Blargh.config.posts_directory = 'p' }
+    subject { Blargh.config.posts_directory }
 
-    its(:posts_directory) { should == 'p' }
+    context 'default' do
+      it { should be_an_instance_of(Pathname) }
+      it { should == Pathname.new('posts') }
+    end
+
+    context 'when posts_directory is set' do
+      before(:each) { Blargh.config.posts_directory = 'random_dir' }
+
+      it { should be_an_instance_of(Pathname) }
+      it { should == Pathname.new('random_dir') }
+    end
   end
-
-  let(:working_directory) { Pathname.new(File.expand_path('../', __FILE__)) }
-  let(:source_path) { Pathname.new(File.expand_path('../source', __FILE__)) }
-  let(:root) { Blargh.root }
 
   describe '.root' do
     before(:each) do
@@ -26,6 +37,8 @@ describe Blargh, 'configuration' do
       Dir.chdir(source_path)
     end
 
+    subject { Blargh.config.root }
+
     after(:each) do
       Dir.chdir(working_directory)
       remove_source
@@ -33,7 +46,6 @@ describe Blargh, 'configuration' do
 
     context 'when the root is set' do
       before(:each) { Blargh.config.root = source_path }
-      subject { root }
 
       it { should be_an_instance_of(Pathname) }
       it { should == source_path }
@@ -52,22 +64,19 @@ describe Blargh, 'configuration' do
 
       context 'as a string' do
         before(:each) { Blargh.config.root = source_path.to_s }
-        subject { root }
 
         it { should be_an_instance_of(Pathname) }
         it { should == source_path }
       end
     end
 
-    context 'when the root is not set' do
-      subject { root }
-
-      context 'and there is a config.ru' do
+    context 'default' do
+      context 'when there is a config.ru' do
         it { should be_an_instance_of(Pathname) }
         it { should == source_path }
       end
 
-      context 'and there is NO config.ru' do
+      context 'when there is NO config.ru' do
         before(:each) do
           File.delete("#{ source_path }/config.ru")
           Blargh.should_receive(:take_warning)

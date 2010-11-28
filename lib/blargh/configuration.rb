@@ -9,19 +9,36 @@ module Blargh
     end
 
     alias :config :configure
+  end
+
+  class Configuration
+    include Singleton
+
+    attr_reader :permalink
+    attr_accessor :posts_directory, :root
+
+    def initialize
+      @posts_directory = Pathname.new('posts')
+      @permalink = '/posts/:slug'
+    end
+
+    def root=(path)
+      @root = Pathname.new(path)
+    end
 
     def root
-      configure.root || source_directory
+      @root || source_directory
     end
 
-    def posts_directory
-      configure.posts_directory
+    def reset_root
+      @root = nil
     end
 
-    def permalink
-      configure.permalink
+    def posts_directory=(path)
+      @posts_directory = Pathname.new(path)
     end
 
+    private
     # These beautiful lines of code were inspired from a code snippet and
     # a detailed illustration of best practices for writing config files from
     # Gregory Brown's Practicing Ruby Newsletter:
@@ -52,29 +69,9 @@ really try something like this:
 
       NOTICE
 
-      take_warning(message)
+      Blargh.take_warning(message)
 
       Pathname.new(Dir.pwd)
-    end
-  end
-
-  class Configuration
-    include Singleton
-
-    attr_reader :permalink
-    attr_accessor :posts_directory, :root
-
-    def initialize
-      @posts_directory = 'posts'
-      @permalink = '/posts/:slug'
-    end
-
-    def root=(path)
-      @root = Pathname.new(path)
-    end
-
-    def reset_root
-      @root = nil
     end
   end
 end
