@@ -8,6 +8,7 @@ Feature: Posts
     Given I have created a blog named "theplank.com"
     And I rackup "theplank.com"
     When I visit "/posts/first-post"
+    Then I should see the default layout
     Then I should see the post:
       | title                     | content                             |
       | This Is Your First Post.  | You should probably edit this file: |

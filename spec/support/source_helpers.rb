@@ -15,7 +15,7 @@ module Blargh
       Blargh::Generators::New.start([
         souce_path.to_s,
         '--verbose',
-        'flase'
+        'false'
       ])
     end
 

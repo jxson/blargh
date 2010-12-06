@@ -113,8 +113,7 @@ module Blargh
 
       def directory
         # TODO: move this to an initialization of some sort
-        raise 'You need to configure your Blargh!' if Blargh.root.nil?
-        "#{ Blargh.root }/#{ Blargh.posts_directory }"
+        "#{ Blargh.config.root }/#{ Blargh.config.posts_directory }"
       end
 
       # TODO: come back to this to get the tags working

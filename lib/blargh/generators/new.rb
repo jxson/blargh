@@ -34,6 +34,12 @@ module Blargh
           "#{ directory }/posts/#{ Post.stamp }-first-post.textile",
           { :verbose => verbose? })
       end
+
+      def copy_post_template
+        template('templates/post.mustache',
+          "#{ directory }/templates/post.mustache",
+          { :verbose => verbose? })
+      end
     end
   end
 end

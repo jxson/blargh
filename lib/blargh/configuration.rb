@@ -15,11 +15,11 @@ module Blargh
     include Singleton
 
     attr_reader :permalink
-    attr_accessor :posts_directory, :root, :layouts_directory
+    attr_accessor :posts_directory, :root, :templates_directory
 
     def initialize
       @posts_directory = Pathname.new('posts')
-      @layouts_directory = Pathname.new('layouts')
+      @templates_directory = Pathname.new('templates')
       @permalink = '/posts/:slug'
     end
 
@@ -39,8 +39,8 @@ module Blargh
       @posts_directory = Pathname.new(path)
     end
 
-    def layouts_directory=(path)
-      @layouts_directory = Pathname.new(path)
+    def templates_directory=(path)
+      @templates_directory = Pathname.new(path)
     end
 
     private

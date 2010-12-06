@@ -12,7 +12,7 @@ describe Blargh, 'configuration' do
     its(:root) { should_not be_nil }
     its(:posts_directory) { should_not be_nil }
     its(:permalink) { should == '/posts/:slug' }
-    its(:layouts_directory) { should_not be_nil }
+    its(:templates_directory) { should_not be_nil }
   end
 
   describe '.posts_directory' do
@@ -31,16 +31,16 @@ describe Blargh, 'configuration' do
     end
   end
 
-  describe '.layouts_directory' do
-    subject { Blargh.config.layouts_directory }
+  describe '.templates_directory' do
+    subject { Blargh.config.templates_directory }
 
     context 'default' do
       it { should be_an_instance_of(Pathname) }
-      it { should == Pathname.new('layouts') }
+      it { should == Pathname.new('templates') }
     end
 
-    context 'when layouts_directory is set' do
-      before(:each) { Blargh.config.layouts_directory = 'random_dir' }
+    context 'when templates_directory is set' do
+      before(:each) { Blargh.config.templates_directory = 'random_dir' }
 
       it { should be_an_instance_of(Pathname) }
       it { should == Pathname.new('random_dir') }

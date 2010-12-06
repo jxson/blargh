@@ -1,3 +1,7 @@
+require 'thor'
+require 'thor/group'
+
+require 'blargh'
 require 'blargh/generators/new'
 
 module Blargh
