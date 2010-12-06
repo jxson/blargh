@@ -35,6 +35,12 @@ module Blargh
           { :verbose => verbose? })
       end
 
+      def copy_layout_template
+        template('templates/layout.mustache',
+          "#{ directory }/templates/layout.mustache",
+          { :verbose => verbose? })
+      end
+
       def copy_post_template
         template('templates/post.mustache',
           "#{ directory }/templates/post.mustache",
