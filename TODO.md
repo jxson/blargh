@@ -1,15 +1,9 @@
 Soon:
 
 * get specs to use the tmp dir
-* find by stamp (:month-:day-:year)
-* get posts to work with factory girl
 * let initialize take file or saved_to as an attr
-* optimize finders
-* attribute typecasting
 * new blog generation
-* new blog configuration
 * textile support
-* layout and template support via mustache
 * generators
 ** posts
 ** pages
@@ -18,6 +12,10 @@ Soon:
 
 Later:
 
+* find by stamp (:month-:day-:year)
+* revamp the posts and pages api per: http://railstips.org/blog/archives/2010/10/24/the-chain-gang
+* attribute typecasting
+* get posts to work with factory girl
 * cache on request in envs != dev or test
 * refactor code to use modules
 * tag/ category support
