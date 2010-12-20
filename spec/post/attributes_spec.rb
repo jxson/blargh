@@ -81,4 +81,17 @@ describe Blargh::Post do
   describe '#slug' do
     its(:slug) { should == 'oh-man-kittens'}
   end
+
+  describe '#content' do
+    before(:each) do
+      @attributes = {
+        :title => 'Dogs',
+        :body => "\nOh man, {{ title }}.\n"
+      }
+
+      @post = Blargh::Post.new(@attributes)
+    end
+
+    its(:content) { should == '<p>Oh man, Dogs.</p>' }
+  end
 end

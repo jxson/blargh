@@ -44,6 +44,10 @@ module Blargh
       read_attribute(:body)
     end
 
+    def content
+      RedCloth.new(Mustache.render(body, self)).to_html
+    end
+
     def description=(value)
       write_attribute(:description, value)
     end

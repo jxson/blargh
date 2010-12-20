@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rack", "~> 1.2.1"
   s.add_dependency "sinatra", "~> 1.1.0"
+  s.add_dependency "RedCloth", "~> 4.2.3"
   s.add_dependency "mustache", "~> 0.11.2"
   s.add_dependency "sinatra-mustache", "~> 0.0.2"
   s.add_dependency "stringex", "~> 1.2.0"

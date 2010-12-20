@@ -3,6 +3,7 @@ require 'yaml'
 
 require 'sinatra'
 require 'mustache'
+require 'RedCloth'
 require 'sinatra/mustache'
 require 'stringex'
 require 'active_model'
