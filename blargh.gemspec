@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rack-test", "~> 0.5.6"
   s.add_development_dependency "aruba", "~> 0.2.3"
   s.add_development_dependency "sparky", "~> 0.0.1"
+  s.add_development_dependency "unicorn", "~>3.0.0"
 
   s.add_dependency "rack", "~> 1.2.1"
   s.add_dependency "sinatra", "~> 1.1.0"
