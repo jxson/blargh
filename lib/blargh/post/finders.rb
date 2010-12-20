@@ -39,6 +39,7 @@ module Blargh
 
       def find_by_slug(slug)
         raise InvalidArgument if slug.nil?
+
         files = Dir["#{ directory }/*.textile"].map do |f|
           if File.basename(f) =~ /\A(\d+-\d+-\d+)-(.*)\.textile/m
             f if slug == $2

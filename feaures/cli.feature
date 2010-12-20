@@ -7,7 +7,6 @@ Feature: Command Line Interface
   Scenario: generate a new blog
     When I run "blargh new blarghing.com"
     Then the following files should exist:
-      | blarghing.com/config/blargh.rb              |
       | blarghing.com/config.ru                     |
       | blarghing.com/pages/about-this-blog.textile |
       | blarghing.com/posts/1-first.textile         |
