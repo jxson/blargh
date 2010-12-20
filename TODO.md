@@ -1,5 +1,12 @@
 Soon:
 
+* post css_id
+* post content (textilized)
+* post author, and any other attr
+* post attrs need to override layout locals
+* posts layout defaults to default
+* slug assignment needs to account for 2010-12-14
+* favicon
 * get specs to use the tmp dir
 * let initialize take file or saved_to as an attr
 * new blog generation
