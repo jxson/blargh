@@ -10,8 +10,8 @@ Feature: Posts
     When I visit "/posts/first-post"
     Then I should see the default layout
     Then I should see the post:
-      | title                     | content                             |
-      | This Is Your First Post.  | You should probably edit this file: |
+      | slug        | content                             |
+      | first-post  | You should probably edit this file: |
 
   Scenario: create a post
     Given this scenario is pending

@@ -1,6 +1,6 @@
 Then /^I should see the post(?:|s):$/ do |table|
   table.hashes.each do |hash|
-    post = Blargh::Post.where(:title => hash['title'])
+    post = Blargh::Post.first.where(:slug => hash['slug'])
 
     within("article##{ post.css_id }") do
 
