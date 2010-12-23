@@ -8,7 +8,8 @@ module Blargh
       :body,
       :description,
       :publish,
-      :slug
+      :slug,
+      :id
     ]
 
     def default_attributes
@@ -34,6 +35,14 @@ module Blargh
 
     def title
       read_attribute(:title) || truncated_body
+    end
+
+    def id=(value)
+      write_attribute(:id, value)
+    end
+
+    def id
+      read_attribute(:id)
     end
 
     def body=(value)
@@ -73,6 +82,7 @@ module Blargh
     end
 
     def slug
+      # what about if we are persisted?
       return if title.nil?
       title.to_url
     end

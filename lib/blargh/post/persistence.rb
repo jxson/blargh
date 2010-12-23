@@ -80,7 +80,7 @@ module Blargh
     end
 
     # good enough for now
-    def get_unique_id(proposed = 1)
+    def get_unique_id(proposed = Time.now.to_i)
       ids = Dir["#{ Post.directory }/*.textile"].map do |file|
         if File.basename(file) =~ /\A(\d*)-/
           Regexp.last_match(1).to_i

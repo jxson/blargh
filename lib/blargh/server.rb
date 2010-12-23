@@ -4,7 +4,8 @@ module Blargh
     set :public, proc { Blargh.config.root + Pathname.new('public') }
 
     # GET /posts/:slug
-    get Blargh.config.permalink do
+    # get Blargh.config.permalink do
+    get '/posts/:timestamp' do
       @post = Post.find_by_slug(params[:slug])
       mustache(:post)
     end

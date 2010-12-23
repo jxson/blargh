@@ -1,12 +1,7 @@
 module Blargh
   module SourceHelpers
     def souce_path
-      Pathname.new(File.expand_path('../../source', __FILE__))
-    end
-
-    def template_path
-      path = File.expand_path('../../../lib/blargh/generators/new', __FILE__)
-      Pathname.new(path)
+      Pathname.new(File.expand_path('../../../tmp/source', __FILE__))
     end
 
     def generate_source
@@ -17,6 +12,8 @@ module Blargh
         '--verbose',
         'false'
       ])
+
+      Blargh.config.root = souce_path
     end
 
     def remove_source

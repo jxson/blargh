@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'forwardable'
 require 'yaml'
 
 require 'sinatra'
@@ -20,6 +21,7 @@ end
 require 'blargh/version'
 require 'blargh/configuration'
 require 'blargh/post'
+require 'blargh/query'
 require 'blargh/post/attributes'
 require 'blargh/post/conversion'
 require 'blargh/post/finders'
