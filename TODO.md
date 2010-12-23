@@ -1,5 +1,8 @@
 Soon:
 
+* not found err in the finder/ query for posts
+* fix post attrs
+* initialize post from file specs
 * post css_id
 * post content (textilized)
 * post author, and any other attr
