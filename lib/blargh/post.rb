@@ -101,6 +101,7 @@ module Blargh
       end
     end
 
+    # private
     def self.files_with_id(id)
       foo = files.select do |f|
         File.basename(f) =~ /\A(\d+)-(.*)\.textile/m && id.to_i == $1.to_i

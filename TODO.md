@@ -1,5 +1,6 @@
 Soon:
 
+* extract finders into a module
 * not found err in the finder/ query for posts
 * fix post attrs
 * initialize post from file specs
