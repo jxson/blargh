@@ -1,18 +1,16 @@
 Soon:
 
-* extract finders into a module
 * not found err in the finder/ query for posts
 * fix post attrs
 * initialize post from file specs
+* let initialize take file or saved_to as an attr
 * post css_id
 * post content (textilized)
 * post author, and any other attr
+* extract finders into a module
 * post attrs need to override layout locals
 * posts layout defaults to default
-* slug assignment needs to account for 2010-12-14
 * favicon
-* get specs to use the tmp dir
-* let initialize take file or saved_to as an attr
 * new blog generation
 * textile support
 * generators
@@ -23,6 +21,7 @@ Soon:
 
 Later:
 
+* slug assignment needs to account for 2010-12-14
 * find by stamp (:month-:day-:year)
 * revamp the posts and pages api per: http://railstips.org/blog/archives/2010/10/24/the-chain-gang
 * attribute typecasting
