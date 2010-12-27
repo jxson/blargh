@@ -89,19 +89,17 @@ module Blargh
       (slugs + ids).map { |file| new(:file => file) }
     end
 
-    # private
+    private
     def self.files
       files = Dir["#{ directory }/*.textile"]
     end
 
-    # private
     def self.files_with_slug(slug)
       files.select do |f|
         File.basename(f) =~ /\A(\d+)-(.*)\.textile/m && slug == $2
       end
     end
 
-    # private
     def self.files_with_id(id)
       foo = files.select do |f|
         File.basename(f) =~ /\A(\d+)-(.*)\.textile/m && id.to_i == $1.to_i
