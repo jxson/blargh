@@ -86,7 +86,7 @@ module Blargh
       # find
       slugs = files_with_slug(selectors[:slug])
       ids = files_with_id(selectors[:id])
-      records = (slugs + ids)
+      records = (slugs + ids).flatten
 
       # apply options
       limit  = opts.delete(:limit) || records.length

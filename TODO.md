@@ -1,6 +1,5 @@
 Soon:
 
-* not found err in the finder/ query for posts
 * fix post attrs
 * initialize post from file specs
 * let initialize take file or saved_to as an attr
