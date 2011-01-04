@@ -24,8 +24,16 @@ module Blargh
       find_each.to_a
     end
 
+    def first
+      find_one
+    end
+
     def find_each
       model.find(conditions, options)
+    end
+
+    def find_one
+      model.find_one(conditions, options)
     end
   end
 end

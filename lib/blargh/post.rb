@@ -1,6 +1,8 @@
 
 module Blargh
   class Post
+    class RecordNotFound < Exception; end
+
     extend ActiveModel::Naming
     include ActiveModel::AttributeMethods
     include ActiveModel::Dirty
@@ -84,12 +86,23 @@ module Blargh
       # find
       slugs = files_with_slug(selectors[:slug])
       ids = files_with_id(selectors[:id])
+
       # apply options
+      limit  = opts.delete(:limit) || records.length
+      records = (slugs + ids)[0..limit]
+
       # initialiaze and return
-      (slugs + ids).map { |file| new(:file => file) }
+      records.map { |file| new(:file => file) }
+    end
+
+    def self.find_one(selectors = {}, opts = {})
+      result = find(selectors, opts.merge(:limit => 1))
+
+      result.empty? ? not_found : result.first
     end
 
     private
+
     def self.files
       files = Dir["#{ directory }/*.textile"]
     end
@@ -105,5 +118,7 @@ module Blargh
         File.basename(f) =~ /\A(\d+)-(.*)\.textile/m && id.to_i == $1.to_i
       end
     end
+
+    def self.not_found; raise RecordNotFound; end
   end
 end

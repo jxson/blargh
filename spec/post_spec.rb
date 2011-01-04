@@ -37,6 +37,12 @@ describe Blargh::Post do
       context '.first' do
         subject { Blargh::Post.where(:slug => 'blargh').first }
         it { should == @pirates }
+
+        it 'should raise RecordNotFound when there is no record' do
+          expect {
+            Blargh::Post.where(:slug => 'unicorns').first
+          }.should raise_error(Blargh::Post::RecordNotFound)
+        end
       end
 
       context '.all' do
