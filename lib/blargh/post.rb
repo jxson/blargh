@@ -86,13 +86,13 @@ module Blargh
       # find
       slugs = files_with_slug(selectors[:slug])
       ids = files_with_id(selectors[:id])
+      records = (slugs + ids)
 
       # apply options
       limit  = opts.delete(:limit) || records.length
-      records = (slugs + ids)[0..limit]
 
       # initialiaze and return
-      records.map { |file| new(:file => file) }
+      records[0..limit].map { |file| new(:file => file) }
     end
 
     def self.find_one(selectors = {}, opts = {})
