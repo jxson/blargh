@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Blargh::Post do
+  let(:post) { Blargh::Post.new(:body => 'Oh man, kittens.') }
+  subject { post }
+
   # https://gist.github.com/665629
   describe 'ActiveModel Lint tests' do
     require 'test/unit/assertions'
@@ -18,6 +21,77 @@ describe Blargh::Post do
       Blargh::Post.new
     end
   end # describe 'ActiveModel Lint tests'
+
+  describe '#body' do
+    its(:body) { should == 'Oh man, kittens.' }
+    it { should validate_presence_of(:body) }
+  end
+
+  describe '#title' do
+    context 'without a title' do
+      its(:title) { should == post.body }
+    end
+
+    context 'with a title' do
+      let(:title) { 'Check this out' }
+      before(:each) { subject.title = title }
+
+      its(:title) { should_not == post.body }
+      its(:title) { should == title }
+    end
+  end
+
+  describe '#description' do
+    context 'description is set' do
+      before(:each) do
+        subject.description = 'some where between a title and a body'
+      end
+
+      its(:description) { should == 'some where between a title and a body' }
+    end
+
+    context 'description is NOT set' do
+      context 'body is under 255 chars' do
+        before(:each) { subject.body = 'just short of 255 chars' }
+
+        its(:description) { should == 'just short of 255 chars' }
+      end
+
+      context 'body is over 255 chars' do
+        let(:body) { Sparky.lorem(:words, 100) }
+        before(:each) { subject.body = body }
+
+        its(:description) { should == body.truncate(255) }
+      end
+    end
+  end
+
+  describe '#publish' do
+    it { should be_published }
+    it { should_not be_draft }
+
+    context 'setting publish to false' do
+      before(:each) { subject.publish = false }
+
+      it { should_not be_published }
+      it { should be_draft }
+    end
+  end
+
+  describe '#slug' do
+    its(:slug) { should == 'oh-man-kittens' }
+  end
+
+  describe '#content' do
+    subject do
+      Blargh::Post.new({
+        :title => 'Dogs',
+        :body => "\nOh man, {{ title }}.\n"
+      })
+    end
+
+    its(:content) { should == '<p>Oh man, Dogs.</p>' }
+  end
 
   describe '.where' do
     before(:each) do

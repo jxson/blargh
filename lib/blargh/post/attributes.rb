@@ -53,10 +53,6 @@ module Blargh
       read_attribute(:body)
     end
 
-    def content
-      RedCloth.new(Mustache.render(body, self)).to_html
-    end
-
     def description=(value)
       write_attribute(:description, value)
     end
@@ -69,28 +65,11 @@ module Blargh
       write_attribute(:publish, value)
     end
 
-    def publish
-      read_attribute(:publish)
-    end
 
-    def published?
-      !!publish
-    end
 
-    def draft?
-      ! !!publish
-    end
 
-    def slug
-      # what about if we are persisted?
-      return if title.nil?
-      title.to_url
-    end
 
     private
-    def truncated_body
-      return if body.nil?
-      body.truncate(255)
-    end
+
   end
 end

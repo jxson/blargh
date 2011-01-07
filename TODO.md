@@ -1,6 +1,5 @@
 Soon:
 
-* fix post attrs
 * initialize post from file specs
 * let initialize take file or saved_to as an attr
 * post css_id
@@ -20,6 +19,7 @@ Soon:
 
 Later:
 
+* respect the publish attr
 * slug assignment needs to account for 2010-12-14
 * find by stamp (:month-:day-:year)
 * revamp the posts and pages api per: http://railstips.org/blog/archives/2010/10/24/the-chain-gang

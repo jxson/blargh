@@ -28,8 +28,6 @@ module Blargh
     end
 
     def save
-      @previously_changed = changes
-      @changed_attributes.clear
       valid? ? create_or_update_file : false
     end
 
@@ -63,8 +61,8 @@ module Blargh
 
     # a new post's proposed home
     def save_to
-      @attributes['id'] = get_unique_id
-      "#{ Post.directory }/#{ read_attribute(:id) }-#{ slug }.#{extension}"
+      id = get_unique_id
+      "#{ Post.directory }/#{ id }-#{ slug }.#{extension}"
     end
 
     def saved_to=(file)
@@ -73,10 +71,6 @@ module Blargh
 
     def saved_to
       @saved_to
-    end
-
-    def id
-      read_attribute(:id)
     end
 
     # good enough for now

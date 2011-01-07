@@ -6,7 +6,11 @@ module Blargh
 
     # converts our object into a file, pretty neat
     def to_file
-      attrs = @attributes.clone
+      # TODO this needs work
+      attrs = {
+        :title => title,
+        :description => description,
+      }
 
       ['body', 'id'].each { |key| attrs.delete(key) }
 

@@ -4,24 +4,46 @@ module Blargh
     class RecordNotFound < Exception; end
 
     extend ActiveModel::Naming
-    include ActiveModel::AttributeMethods
-    include ActiveModel::Dirty
     include ActiveModel::Validations
     include ActiveModel::Conversion
 
+    attr_accessor :id, :body, :title, :description, :publish, :slug
+
     validates_presence_of :body
+    attr_accessor_with_default(:title) { body }
+    attr_accessor_with_default(:description) { truncated_body }
+    attr_accessor_with_default(:publish, true)
 
     def initialize(attributes = {})
-      if file = attributes[:file]
+      if file = attributes[:file] # use delete
         attributes = extract_attributes_from_file(file)
-        self.saved_to = file
-        @attributes = {} # use an attr accessor
+        self.saved_to = file # why not just use file?
       else
         @new_record = true
-        @attributes = default_attributes
       end
 
-      attributes.each { |name, value| write_attribute(name, value) }
+      attributes.each { |name, value| send("#{ name }=", value) }
+    end
+
+    def truncated_body
+      body.truncate(255) unless body.nil?
+    end
+    private :truncated_body
+
+    def content
+      RedCloth.new(Mustache.render(body, self)).to_html
+    end
+
+    def published?
+      !!publish
+    end
+
+    def draft?
+      ! !!publish
+    end
+
+    def slug
+      title.to_url
     end
 
     def ==(other)
@@ -29,13 +51,13 @@ module Blargh
       id == other.id
     end
 
-    def inspect
-      attr_string = @attributes.map {|k, v|
-        "#{ k.inspect } => #{ v.inspect }"
-      }.join(' ')
-
-      "#<#{self.class.name} id: #{ id } #{ attr_string }>"
-    end
+    # def inspect
+    #   attr_string = @attributes.map {|k, v|
+    #     "#{ k.inspect } => #{ v.inspect }"
+    #   }.join(' ')
+    #
+    #   "#<#{self.class.name} id: #{ id } #{ attr_string }>"
+    # end
 
     def extract_attributes_from_file(file)
       content = File.read(file)
@@ -102,7 +124,6 @@ module Blargh
     end
 
     private
-
     def self.files
       files = Dir["#{ directory }/*.textile"]
     end
