@@ -4,7 +4,6 @@ describe Blargh, 'configuration' do
   before(:each) { silence_blargh_warnings }
 
   let(:working_directory) { Pathname.new(File.expand_path('../', __FILE__)) }
-  let(:source_path) { Pathname.new(File.expand_path('../source', __FILE__)) }
 
   describe 'defaults' do
     subject { Blargh.config }
@@ -88,6 +87,8 @@ describe Blargh, 'configuration' do
     end
 
     context 'default' do
+      before(:each) { Blargh.config.reset_root }
+
       context 'when there is a config.ru' do
         it { should be_an_instance_of(Pathname) }
         it { should == source_path }

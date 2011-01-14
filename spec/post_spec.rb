@@ -96,7 +96,7 @@ describe Blargh::Post do
   describe 'persistence' do
     before(:each) do
       generate_source
-      Blargh.config.root = souce_path
+      Blargh.config.root = source_path
     end
 
     after(:each) { remove_source }
