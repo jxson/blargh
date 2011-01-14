@@ -8,8 +8,8 @@ module Blargh
     def to_file
       # TODO this needs work
       attrs = {
-        :title => title,
-        :description => description,
+        'title' => title,
+        'description' => description,
       }
 
       ['body', 'id'].each { |key| attrs.delete(key) }

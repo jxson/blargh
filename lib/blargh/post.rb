@@ -2,12 +2,14 @@
 module Blargh
   class Post
     class RecordNotFound < Exception; end
+    class ValidationError < Exception; end
 
     extend ActiveModel::Naming
     include ActiveModel::Validations
     include ActiveModel::Conversion
 
-    attr_accessor :id, :body, :title, :description, :publish, :slug
+
+    attr_accessor :id, :body, :title, :description, :publish, :slug, :file
 
     validates_presence_of :body
     attr_accessor_with_default(:title) { body }
@@ -15,14 +17,17 @@ module Blargh
     attr_accessor_with_default(:publish, true)
 
     def initialize(attributes = {})
-      if file = attributes[:file] # use delete
-        attributes = extract_attributes_from_file(file)
-        self.saved_to = file # why not just use file?
-      else
-        @new_record = true
-      end
-
       attributes.each { |name, value| send("#{ name }=", value) }
+    end
+
+    def self.create(attributes = {})
+      new(attributes).tap(&:save)
+    end
+
+    def self.create!(attributes = {})
+      post = new(attributes)
+      raise ValidationError if !post.save
+      post
     end
 
     def truncated_body
@@ -49,6 +54,10 @@ module Blargh
     def ==(other)
       return false unless other.is_a?(Post)
       id == other.id
+    end
+
+    def id
+      File.basename(file, '.textile')
     end
 
     # def inspect
@@ -90,6 +99,69 @@ module Blargh
       end
     end
 
+    def save
+      valid? ? create_or_update_file : false
+    end
+
+    def save!
+      raise ValidationError if not valid?
+      save
+    end
+
+    def destroy
+      if persisted?
+        FileUtils.rm(file).inspect
+        true
+      else
+        false
+      end
+    end
+    # alias :destroy :delete
+
+    def create_or_update_file
+      new_record? ? create_file : update_file
+    end
+
+    def update_file
+      true
+    end
+
+    def create_file
+      return false if persisted_or_invalid
+      FileUtils.mkdir_p(Post.directory)
+      self.file = "#{ Post.directory }/#{ get_unique_id }-#{ slug }.#{extension}"
+      File.open(file, 'w') {|f| f.write(to_file) }
+      true
+    end
+    private :create_file
+
+    def get_unique_id(proposed = Time.now.to_i)
+      ids = Dir["#{ Post.directory }/*.textile"].map do |file|
+        if File.basename(file) =~ /\A(\d*)-/
+          Regexp.last_match(1).to_i
+        end
+      end.sort!
+
+      ids.include?(proposed) ? get_unique_id(ids.last + 1) : proposed
+    end
+    private :get_unique_id
+
+    def persisted_or_invalid
+      !valid? || persisted?
+    end
+
+    def new_record?
+      ! !!persisted?
+    end
+
+    def persisted?
+      file ? File.exists?(file) : false
+    end
+
+    def extension
+      'textile'
+    end
+
     def self.stamp
       Time.now.to_i
     end
@@ -124,6 +196,10 @@ module Blargh
     end
 
     private
+    def self.directory
+      "#{ Blargh.config.root }/#{ Blargh.config.posts_directory }"
+    end
+
     def self.files
       files = Dir["#{ directory }/*.textile"]
     end
@@ -141,5 +217,14 @@ module Blargh
     end
 
     def self.not_found; raise RecordNotFound; end
+
+    def self.count
+      Dir["#{ directory }/*"].count
+    end
+
+    # TODO: come back to this to get the tags working
+    def self.reflect_on_association(association)
+      nil
+    end
   end
 end

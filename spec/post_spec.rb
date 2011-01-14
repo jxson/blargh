@@ -93,6 +93,133 @@ describe Blargh::Post do
     its(:content) { should == '<p>Oh man, Dogs.</p>' }
   end
 
+  describe 'persistence' do
+    before(:each) do
+      generate_source
+      Blargh.config.root = souce_path
+    end
+
+    after(:each) { remove_source }
+
+    let(:post) { Blargh::Post.new(:body => 'some junk about some stuff') }
+    subject { post }
+
+    describe '#new' do
+      it { should be_new_record }
+      it { should_not be_persisted }
+      its(:file) { should be_nil }
+    end
+
+    describe '#save' do
+      # save a new record
+      # save an existing record
+      context 'when valid' do
+        its(:save) { should be_true }
+
+        context 'after save' do
+          before(:each) { post.save }
+
+          it { should_not be_new_record }
+          it { should be_persisted }
+          its(:file) { should_not be_nil }
+        end
+      end # context 'when valid'
+
+      context 'when invalid' do
+        let(:post) { Blargh::Post.new }
+        subject { post }
+
+        its(:save) { should be_false }
+
+        context 'after save' do
+          before(:each) { post.save }
+
+          it { should_not be_persisted }
+          its(:errors) { should include(:body=>["can't be blank"]) }
+          its(:file) { should be_nil }
+        end
+      end # context 'when invalid'
+    end #  describe '#save'
+
+    describe 'save!' do
+      context 'when valid' do
+        its(:save!) { should be_true }
+      end
+
+      context 'when invalid' do
+        before(:each) { post.body = nil }
+
+        it "should raise an error" do
+          expect { @post.save! }.to
+            raise_error(Blargh::Post::ValidationError)
+        end
+      end
+    end # describe 'save!'
+
+    describe '.create' do
+      let(:post) { Blargh::Post.create(:body => 'Blah, blah, blah') }
+      subject { post }
+
+      it { should be_a_kind_of(Blargh::Post) }
+      it { should_not be_a_new_record }
+
+      context 'when valid' do
+        it { should be_valid }
+        it { should be_persisted }
+        its(:file) { should_not be_nil }
+      end # context 'when valid'
+
+      context 'when invalid' do
+        let(:post) { Blargh::Post.create }
+        subject { post }
+
+        it { should_not be_valid }
+        it { should_not be_persisted }
+        its(:file) { should be_nil }
+      end # context 'when invalid'
+    end # describe '.create'
+
+    describe '.create!' do
+      context 'when valid' do
+        subject { Blargh::Post.create!(:body => 'Blah, blah') }
+
+        it { should be_a_kind_of(Blargh::Post) }
+        it { should_not be_a_new_record }
+        it { should be_valid }
+        it { should be_persisted }
+        its(:file) { should_not be_nil }
+      end
+
+      context 'when invalid' do
+        it "it should raise an error" do
+          expect {Blargh::Post.create! }.to
+            raise_error(Blargh::Post::ValidationError)
+        end
+      end
+    end # describe '.create!'
+
+    describe '#delete' do
+      before(:each) { post.save! }
+
+      context 'new post' do
+        it 'it should be destroyed' do
+          expect { post.destroy }.to change(Blargh::Post, :count).by(-1)
+        end
+
+        it 'should be gone' do
+          expect { post.destroy }.to
+            change(post, :persisted?).from(true).to(false)
+        end
+
+        it "should raise an error when looking for the destroyed post" do
+          post.destroy
+          expect { Blargh::Post.find(post.id) }.to
+            raise_error(Blargh::Post::RecordNotFound)
+        end
+      end # context 'new post'
+    end # describe '#delete'
+  end # describe 'persistence'
+
   describe '.where' do
     before(:each) do
       generate_source
