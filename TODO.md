@@ -1,16 +1,11 @@
 Soon:
 
-* initialize post from file specs
-* let initialize take file or saved_to as an attr
 * post css_id
-* post content (textilized)
 * post author, and any other attr
-* extract finders into a module
 * post attrs need to override layout locals
 * posts layout defaults to default
 * favicon
 * new blog generation
-* textile support
 * generators
 ** posts
 ** pages
@@ -19,6 +14,7 @@ Soon:
 
 Later:
 
+* extract finders and persistence into a module to use for pages and posts
 * respect the publish attr
 * slug assignment needs to account for 2010-12-14
 * find by stamp (:month-:day-:year)
