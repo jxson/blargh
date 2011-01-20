@@ -93,6 +93,29 @@ describe Blargh::Post do
     its(:content) { should == '<p>Oh man, Dogs.</p>' }
   end
 
+  describe '#file' do
+    context 'setting the file on initialization' do
+      before(:each) do
+        generate_source
+        Blargh.config.root = source_path
+      end
+
+      after(:each) { remove_source }
+
+      let(:file) { Dir["#{ source_path }/posts/*-first-post.textile"].first }
+      let(:post) { Blargh::Post.new(:file => file) }
+      subject { post }
+
+      its(:title) { should == 'Just an example' }
+      its(:body) { should =~ /This an example post/ }
+      its(:content) { should =~ /This an example post/ }
+      its(:slug) { should == 'first-post' }
+      its(:id) { should_not be_nil }
+      it { should be_published }
+      it { should_not be_draft }
+    end
+  end
+
   describe 'persistence' do
     before(:each) do
       generate_source

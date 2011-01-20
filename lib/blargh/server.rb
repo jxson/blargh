@@ -5,8 +5,8 @@ module Blargh
 
     # GET /posts/:slug
     # get Blargh.config.permalink do
-    get '/posts/:timestamp' do
-      @post = Post.find_by_slug(params[:slug])
+    get '/posts/:slug' do
+      @post = Post.where(:slug => params[:slug]).first
       mustache(:post)
     end
   end

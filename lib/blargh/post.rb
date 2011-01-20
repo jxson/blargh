@@ -20,6 +20,10 @@ module Blargh
       attributes.each { |name, value| send("#{ name }=", value) }
     end
 
+    def css_id
+      id.nil? ? nil : "post-#{ id }"
+    end
+
     def self.create(attributes = {})
       new(attributes).tap(&:save)
     end
@@ -48,7 +52,13 @@ module Blargh
     end
 
     def slug
-      title.to_url
+      persisted? ? slug_from_file : title.to_url
+    end
+
+    def slug_from_file
+      if File.basename(file, '.textile') =~ /\A(\d*)-(.*)/m
+        $2
+      end
     end
 
     def ==(other)
@@ -57,46 +67,21 @@ module Blargh
     end
 
     def id
-      File.basename(file, '.textile')
-    end
-
-    # def inspect
-    #   attr_string = @attributes.map {|k, v|
-    #     "#{ k.inspect } => #{ v.inspect }"
-    #   }.join(' ')
-    #
-    #   "#<#{self.class.name} id: #{ id } #{ attr_string }>"
-    # end
-
-    def extract_attributes_from_file(file)
-      content = File.read(file)
-
-      if content =~ /^(---\s*\n.*?\n?)^(---\s*$\n?)/m
-        content = content[($1.size + $2.size)..-1]
-
-        attributes = YAML.load($1)
-        attributes[:body] = content
-        attributes[:id] = extract_id_from_file(file)
-        attributes[:slug] = extract_slug_from_file(file)
-      end
-
-      attributes ||= {}
-    end
-
-    def extract_slug_from_file(file)
-      basename = File.basename(file, '.textile')
-
-      if basename =~ /\A(\d*)-(.*)/m
-        $2
-      end
-    end
-
-    def extract_id_from_file(file)
-      basename = File.basename(file, '.textile')
-
-      if basename =~ /\A(\d*)-(.*)/m
+      if File.basename(file, '.textile') =~ /\A(\d*)-(.*)/m
         $1.to_i
       end
+    end
+
+    def file=(file)
+      data = File.read(file)
+
+      if data =~ /^(---\s*\n.*?\n?)^(---\s*$)/m
+        self.body = data[($1.size + $2.size)..-1]
+        attributes = YAML.load($1.strip)
+        attributes.each { |name, value| send("#{ name }=", value) }
+      end
+
+      @file = file
     end
 
     def save
@@ -211,7 +196,7 @@ module Blargh
     end
 
     def self.files_with_id(id)
-      foo = files.select do |f|
+      files.select do |f|
         File.basename(f) =~ /\A(\d+)-(.*)\.textile/m && id.to_i == $1.to_i
       end
     end
