@@ -1,9 +1,10 @@
 Soon:
 
-* post css_id
 * post author, and any other attr
 * post attrs need to override layout locals
 * posts layout defaults to default
+* feature a post with a custom layout
+* rss
 * favicon
 * new blog generation
 * generators
