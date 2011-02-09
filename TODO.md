@@ -1,6 +1,8 @@
 Soon:
 
 * feature a post with a custom layout
+* posts need urls/ paths for linkage
+* pages
 * rss
 * favicon
 * new blog generation
