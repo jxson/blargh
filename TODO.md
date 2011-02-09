@@ -1,6 +1,5 @@
 Soon:
 
-* post author, and any other attr
 * post attrs need to override layout locals
 * posts layout defaults to default
 * feature a post with a custom layout

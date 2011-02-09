@@ -1,4 +1,3 @@
-
 module Blargh
   class Post
     class RecordNotFound < Exception; end
@@ -78,7 +77,13 @@ module Blargh
       if data =~ /^(---\s*\n.*?\n?)^(---\s*$)/m
         self.body = data[($1.size + $2.size)..-1]
         attributes = YAML.load($1.strip)
-        attributes.each { |name, value| send("#{ name }=", value) }
+
+        attributes.each do |name, value|
+          # if the attr setter exists set it
+          if methods.include?("#{ name }=".to_sym)
+            send("#{ name }=".to_sym, value)
+          end
+        end
       end
 
       @file = file
@@ -207,14 +212,9 @@ module Blargh
       Dir["#{ directory }/*"].count
     end
 
-    # TODO: come back to this to get the tags working
-    def self.reflect_on_association(association)
-      nil
-    end
-
-    def to_json
-      @attributes.to_json
-    end
+    # def to_json
+    #   @attributes.to_json
+    # end
 
     # converts our object into a file, pretty neat
     def to_file
