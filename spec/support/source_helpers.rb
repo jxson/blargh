@@ -1,7 +1,7 @@
 module Blargh
   module SourceHelpers
     def source_path
-      Pathname.new(File.expand_path('../../../tmp/source', __FILE__))
+      Pathname.new(File.expand_path('../../../tmp/spec-blargh.com', __FILE__))
     end
 
     def generate_source

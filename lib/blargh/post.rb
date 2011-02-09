@@ -134,8 +134,8 @@ module Blargh
     def create_file
       return false if persisted_or_invalid
       FileUtils.mkdir_p(Post.directory)
-      self.file = "#{ Post.directory }/#{ get_unique_id }-#{ slug }.#{extension}"
-      File.open(file, 'w') {|f| f.write(to_file) }
+      @file = "#{ Post.directory }/#{ get_unique_id }-#{ slug }.#{extension}"
+      File.open(@file, 'w') {|f| f.write(to_file) }
       true
     end
     private :create_file
@@ -225,6 +225,11 @@ module Blargh
 
     def self.count
       Dir["#{ directory }/*"].count
+    end
+
+    def self.reflect_on_association(association)
+      # prob not going to use this but it makes the activemodel lint happy
+      nil
     end
 
     # def to_json
