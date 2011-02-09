@@ -8,7 +8,14 @@ module Blargh
     include ActiveModel::Conversion
 
 
-    attr_accessor :id, :body, :title, :description, :publish, :slug, :file
+    attr_accessor :id,
+      :body,
+      :title,
+      :description,
+      :publish,
+      :slug, # make a reader
+      :file,
+      :layout
 
     validates_presence_of :body
     attr_accessor_with_default(:title) { body }
@@ -58,6 +65,14 @@ module Blargh
       if File.basename(file, '.textile') =~ /\A(\d*)-(.*)/m
         $2
       end
+    end
+
+    def layout=(layout)
+      @layout = layout.to_sym
+    end
+
+    def layout
+      @layout ? @layout.to_sym : :layout
     end
 
     def ==(other)

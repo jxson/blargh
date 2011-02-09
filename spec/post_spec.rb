@@ -22,6 +22,19 @@ describe Blargh::Post do
     end
   end # describe 'ActiveModel Lint tests'
 
+  describe '#layout' do
+    context 'without a layout' do
+      its(:layout) { should == :layout }
+    end
+
+    context 'with a layout' do
+      before(:each) { subject.layout = :totally_custom }
+
+      its(:layout) { should_not == :layout }
+      its(:layout) { should == :totally_custom }
+    end
+  end
+
   describe '#body' do
     its(:body) { should == 'Oh man, kittens.' }
     it { should validate_presence_of(:body) }

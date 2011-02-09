@@ -7,7 +7,7 @@ module Blargh
     # get Blargh.config.permalink do
     get '/posts/:slug' do
       @post = Post.where(:slug => params[:slug]).first
-      mustache(:post)
+      mustache(:post, { :layout => @post.layout })
     end
   end
 end

@@ -1,7 +1,5 @@
 Soon:
 
-* post attrs need to override layout locals
-* posts layout defaults to default
 * feature a post with a custom layout
 * rss
 * favicon
