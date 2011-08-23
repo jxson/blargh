@@ -14,8 +14,11 @@ Feature: Command Line Interface
   Scenario: generate a new post
     Given this scenario is pending
 
-  Scenario: generate a new page
+  Scenario: generate a new post with a custom layout
     Given this scenario is pending
 
   Scenario: generate a new layout
+    Given this scenario is pending
+
+  Scenario: generate a new page
     Given this scenario is pending
